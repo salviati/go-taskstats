@@ -9,9 +9,9 @@ import (
 )
 
 var (
-	exes = []string{"mplayer", "xine", "dragon"}
-	exts = []string{".avi", ".mpg", ".mpeg", ".divx", ".xvid", "wmv", "ogv", "mp4"}
-	manager  Manager
+	exes    = []string{"mplayer", "xine", "dragon"}
+	exts    = []string{".avi", ".mpg", ".mpeg", ".divx", ".xvid", "wmv", "ogv", "mp4"}
+	manager Manager
 )
 
 func init() {
@@ -20,29 +20,35 @@ func init() {
 
 func main() {
 	tw, err := taskstats.NewWatcher()
-	if err != nil { log.Fatal(err) }
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	exec := make(chan int)
 	exit := make(chan int)
-	
+
 	go func() {
 		for {
 			ev0, err := tw.Event()
-			if err != nil { log.Fatal(err) }
+			if err != nil {
+				log.Fatal(err)
+			}
 
 			switch ev := ev0.(type) {
-				case *taskstats.ExecEvent:
-					exec <- ev.Pid
-				case *taskstats.ExitEvent:
-					exit <- ev.Pid
+			case *taskstats.ExecEvent:
+				exec <- ev.Pid
+			case *taskstats.ExitEvent:
+				exit <- ev.Pid
 			}
 		}
 	}()
-	
+
 	for {
 		select {
-			case pid := <-exec: manager.AddTask(pid)
-			case pid := <-exit: manager.RmTask(pid)
+		case pid := <-exec:
+			manager.AddTask(pid)
+		case pid := <-exit:
+			manager.RmTask(pid)
 		}
 	}
 }

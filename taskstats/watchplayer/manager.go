@@ -1,10 +1,10 @@
 package main
 
 import (
-	"path/filepath"
-	"sync"
 	"fmt"
 	"os"
+	"path/filepath"
+	"sync"
 )
 
 type Manager struct {
@@ -17,14 +17,14 @@ func (manager *Manager) AddTask(pid int) (added bool, err error) {
 	manager.mutex.Lock()
 	defer manager.mutex.Unlock()
 
-	exe, err := os.Readlink(fmt.Sprint("/proc/",pid,"/exe"))
+	exe, err := os.Readlink(fmt.Sprint("/proc/", pid, "/exe"))
 	if in(filepath.Base(exe), exes) == false {
-// 		log.Println("error reading symlink: ", err)
+		// 		log.Println("error reading symlink: ", err)
 		return
 	}
-	
-	println("add",pid)
-	
+
+	println("add", pid)
+
 	t := NewTask(pid)
 	manager.tasks[pid] = t
 	return true, nil
@@ -33,12 +33,12 @@ func (manager *Manager) AddTask(pid int) (added bool, err error) {
 func (manager *Manager) RmTask(pid int) {
 	manager.mutex.Lock()
 	defer manager.mutex.Unlock()
-	
-	if _, ok :=  manager.tasks[pid]; !ok {
+
+	if _, ok := manager.tasks[pid]; !ok {
 		return
 	}
 
-	delete(manager.tasks,pid)
-	
-	println("rm",pid)
-} 
+	delete(manager.tasks, pid)
+
+	println("rm", pid)
+}

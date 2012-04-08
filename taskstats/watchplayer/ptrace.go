@@ -1,4 +1,5 @@
 package main
+
 // #include <sys/ptrace.h>
 // #include <stdio.h>
 // #include <errno.h>
@@ -12,9 +13,9 @@ import "C"
 import "syscall"
 
 func PtraceSyscall(pid int) error {
-	ret := int( C.PtraceSyscall( C.int(pid) ) )
+	ret := int(C.PtraceSyscall(C.int(pid)))
 	if ret == -1 {
-		return syscall.Errno( C.get_errno() ) // BUG(utkan): shouldn't be doing this!
+		return syscall.Errno(C.get_errno()) // BUG(utkan): shouldn't be doing this!
 	}
 	return nil
 }
