@@ -27,6 +27,7 @@ func (t *Task) RefreshFiles() error {
 	if err != nil {
 		return err
 	}
+	defer file.Close()
 
 	names, err := file.Readdirnames(0)
 	if err != nil {
