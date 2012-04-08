@@ -37,8 +37,8 @@ func (t *Task) RefreshFiles() error {
 	for _, name := range names {
 		target, err := os.Readlink(dirpath + name)
 		if err != nil {
-			continue
-		} // FIXME(utkan)
+			continue // FIXME(utkan)
+		}
 		ext := strings.ToLower(filepath.Ext(target))
 		if !in(ext, exts) {
 			continue
@@ -65,7 +65,7 @@ func (t *Task) Tracer() error {
 		return err
 	}
 	defer func() {
-		// 		syscall.PtraceCont(t.pid, 0)
+		// syscall.PtraceCont(t.pid, 0)
 		syscall.PtraceDetach(t.pid)
 	}()
 
@@ -88,6 +88,7 @@ func (t *Task) Tracer() error {
 			return err
 		}
 
+		// linux_amd64
 		if regsout.Orig_rax == syscall.SYS_OPEN {
 			if timer != nil {
 				if timer.Stop() == false {
