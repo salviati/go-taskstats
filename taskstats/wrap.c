@@ -35,8 +35,7 @@ int kernel_pid_t_size() {
 	return sizeof(__kernel_pid_t);
 }
 
-int nl_init()
-{
+int nl_init() {
 	int fd = socket(PF_NETLINK, SOCK_DGRAM, NETLINK_CONNECTOR);
 	if (fd == -1) { return -errno; }
 
@@ -48,21 +47,19 @@ int nl_init()
 }
 
 
-int nl_subscribe(int fd, int dosubscribe)
-{
+int nl_subscribe(int fd, int dosubscribe) {
 	struct op_msg m = {
 		.nl_hdr = { .nlmsg_len = sizeof(struct op_msg), .nlmsg_type = NLMSG_DONE, .nlmsg_flags = 0, .nlmsg_seq = 0, .nlmsg_pid = getpid() },
 		.cn_msg = { .id = {.idx = CN_IDX_PROC, .val = CN_VAL_PROC}, .seq = 0, .ack = 0, .len = sizeof(enum proc_cn_mcast_op) },
 		.op = dosubscribe ? PROC_CN_MCAST_LISTEN : PROC_CN_MCAST_IGNORE
 	};
-    int err = send(fd, &m, sizeof(struct op_msg), 0);
+	int err = send(fd, &m, sizeof(struct op_msg), 0);
 	if (err != 0) { return -errno; }
 
     return 0;
 }
 
-int nl_receive_event(int fd, int *what, int *event_data)
-{
+int nl_receive_event(int fd, int *what, int *event_data) {
 	struct ev_msg m;
 	ssize_t n = recv(fd, &m, sizeof(struct ev_msg), 0);
 

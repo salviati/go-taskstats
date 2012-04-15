@@ -24,14 +24,14 @@ type RawEvent struct {
 }
 
 type ForkEvent struct {
-	ParentGid int
+	ParentGid  int
 	ParentTGid int
-	ChildPid int
-	ChildTPid int
+	ChildPid   int
+	ChildTPid  int
 }
 
 type ExecEvent struct {
-	Pid int
+	Pid  int
 	TGid int
 }
 
@@ -43,27 +43,26 @@ type IdEvent struct {
 }
 
 type SidEvent struct {
-	Pid int
+	Pid  int
 	TGid int
 }
 
 type PtraceEvent struct {
-	Pid int
-	TGid int
-	TracerPid int
+	Pid        int
+	TGid       int
+	TracerPid  int
 	TracerTGid int
 }
 
 type CommEvent struct {
-	Pid int
+	Pid  int
 	TGid int
 	Comm [16]byte
 }
 
 type ExitEvent struct {
-	Pid int
-	TGid int
-	ExitCode uint32
+	Pid        int
+	TGid       int
+	ExitCode   uint32
 	ExitSignal uint32
 }
-
