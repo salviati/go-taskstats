@@ -1,12 +1,5 @@
 // See http://www.kernel.org/doc/Documentation/accounting/taskstats.txt
-// package taskstats
-
 package taskstats
-
-import (
-// 	"exp/inotify"
-// 	"log"
-)
 
 func NewWatcher() (*Watcher, error) {
 	var err error
